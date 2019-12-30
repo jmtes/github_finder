@@ -1,3 +1,6 @@
+// Instantiate Github object
+const github = new Github();
+
 // Search input
 const searchUser = document.getElementById('searchUser');
 
@@ -7,6 +10,10 @@ searchUser.addEventListener('keyup', (event) => {
   const userText = event.target.value;
 
   if (userText) {
-    console.log(userText);
+    // Make HTTP request
+    github.getUser(userText)
+      .then(data => {
+        console.log(data);
+      });
   }
 });
