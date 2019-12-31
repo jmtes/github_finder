@@ -5,6 +5,10 @@ class UI {
 
   // Display profile in UI
   showProfile (user) {
+    let memberSince = new Date(user.created_at);
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    memberSince = `${months[memberSince.getUTCMonth()]} ${memberSince.getFullYear()}`;
+
     this.profile.innerHTML = `
       <div class="card card-body mb-3">
         <div class="row">
@@ -24,7 +28,7 @@ class UI {
               <li class="list-group-item">Company: ${user.company ? user.company : 'N/A'}</li>
               <li class="list-group-item">Website: ${user.blog ? user.blog : 'N/A'}</li>
               <li class="list-group-item">Location: ${user.location ? user.location : 'N/A'}</li>
-              <li class="list-group-item">Member Since: ${user.created_at}</li>
+              <li class="list-group-item">Member Since: ${memberSince}</li>
             </ul>
           </div>
         </div>
@@ -39,6 +43,31 @@ class UI {
   // Clear profile from UI
   clearProfile () {
     this.profile.innerHTML = '';
+  }
+
+  // Show user repos
+  showRepos (repos) {
+    let output = '';
+
+    repos.forEach(function (repo) {
+      output += `
+        <div class="card card-body mb-2">
+          <div class="row">
+            <div class="col-md-6">
+              <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+            </div>
+            <div class="col-md-6">
+              <span class="badge badge-primary">Stars: ${repo.stargazers_count ? repo.stargazers_count : 0}</span>
+              <span class="badge badge-secondary">Watchers: ${repo.watchers_count ? repo.watchers_count : 0}</span>
+              <span class="badge badge-success">Forks: ${repo.forks_count ? repo.forks_count : 0}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    // Display repos to UI
+    document.getElementById('repos').innerHTML = output;
   }
 
   // Show alert message
